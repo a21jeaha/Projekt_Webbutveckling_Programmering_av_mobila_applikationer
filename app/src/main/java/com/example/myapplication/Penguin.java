@@ -1,7 +1,10 @@
 package com.example.myapplication;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Penguin {
     private String name;
+    @SerializedName("location")
     private String eats;
     private String size;
     private Auxdata auxdata;
