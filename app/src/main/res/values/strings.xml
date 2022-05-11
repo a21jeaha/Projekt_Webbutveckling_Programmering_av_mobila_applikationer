@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Pingviner</string>
     <string name="about">about</string>
+    <string name="eats">Eats:</string>
+    <string name="hight">Hight:</string>
+    <string name="height">height</string>
 </resources>
