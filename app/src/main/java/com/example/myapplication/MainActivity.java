@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     private ArrayList<Penguin> penguins;
 
     private Gson gson;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,31 +32,33 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         setContentView(R.layout.activity_main);
 
         gson = new Gson();
+        intent = new Intent(MainActivity.this, );
 
         penguins = new ArrayList<>();
 
         penguinRecyclerAdapter = new PenguinRecyclerAdapter(this, penguins, new PenguinRecyclerAdapter.OnClickListener() {
             @Override
             public void onClick(Penguin penguin) {
-
+                intent()
             }
         });
 
-        recyclerView = findViewById(R.id.recycler);
-        recyclerView.setAdapter(penguinRecyclerAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+       setAdapter();
 
         new JsonTask(this).execute(JSON_URL);
     }
 
+    private void setAdapter(){                                                    // initierar penguinRecyclerAdaptern
+        recyclerView = findViewById(R.id.recycler);
+        recyclerView.setAdapter(penguinRecyclerAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
     @Override
-    public void onPostExecute(String json) {
-        Log.d("==>", json);
+    public void onPostExecute(String json) {                            // Unmarshall Json strängen med hjälp av GSON
 
         Type type = new TypeToken<ArrayList<Penguin>>() {}.getType();
         penguins = gson.fromJson( json, type);
-
-        Log.d("==>", ""+ penguins.size());
 
         penguinRecyclerAdapter.setPenguins(penguins);
         penguinRecyclerAdapter.notifyDataSetChanged();
