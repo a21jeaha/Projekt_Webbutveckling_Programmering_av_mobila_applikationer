@@ -18,7 +18,7 @@ public class PenguinRecyclerAdapter extends RecyclerView.Adapter<PenguinRecycler
     private LayoutInflater layoutInflater;
     private OnClickListener onClickListener;
 
-    public PenguinRecyclerAdapter(Context context, ArrayList<Penguin> penguins, LayoutInflater layoutInflater, OnClickListener onClickListener) {
+    public PenguinRecyclerAdapter(Context context, ArrayList<Penguin> penguins, OnClickListener onClickListener) {
         this.penguins = penguins;
         this.layoutInflater = layoutInflater.from(context);
         this.onClickListener = onClickListener;
@@ -73,5 +73,9 @@ public class PenguinRecyclerAdapter extends RecyclerView.Adapter<PenguinRecycler
 
     public interface OnClickListener {
         void onClick(Penguin penguin);
+    }
+
+    public void setPenguins(ArrayList<Penguin> penguins){           // anropas när GSON unmarhel JSON strängen (från main activity)
+        this.penguins = penguins;
     }
 }
