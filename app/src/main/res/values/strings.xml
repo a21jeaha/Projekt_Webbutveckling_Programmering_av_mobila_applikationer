@@ -2,5 +2,5 @@
     <string name="app_name">Penguins</string>
     <string name="about">about</string>
     <string name="eats">Eats:</string>
-    <string name="height">Mean height</string>
+    <string name="height">Mean height:</string>
 </resources>

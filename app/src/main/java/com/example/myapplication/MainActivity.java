@@ -45,14 +45,12 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         floatingActionButton1 = findViewById(R.id.floatingActionButton);
 
-
         floatingActionButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(intentAbout);
             }
         });
-
 
         penguinRecyclerAdapter = new PenguinRecyclerAdapter(this, penguins, new PenguinRecyclerAdapter.OnClickListener() {
             @Override
@@ -65,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
        setAdapter();
 
-        new JsonTask(this).execute(JSON_URL);
+       new JsonTask(this).execute(JSON_URL);
     }
 
     private void setAdapter(){                                                    // initierar penguinRecyclerAdaptern

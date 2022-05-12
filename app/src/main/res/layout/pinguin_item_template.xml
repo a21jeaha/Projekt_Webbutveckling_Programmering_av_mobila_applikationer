@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="100dp"
+    android:background=""
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -26,7 +27,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/penguin_image"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="7dp"
         android:layout_marginStart="16dp"
         />
 
@@ -48,7 +49,7 @@
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/eats"
+        app:layout_constraintTop_toBottomOf="@id/eat_information"
         app:layout_constraintStart_toEndOf="@id/penguin_image"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
@@ -57,22 +58,26 @@
     <TextView
         android:id="@+id/eat_information"
         tools:text="eat temp text"
-        android:layout_width="wrap_content"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/eats"
         app:layout_constraintTop_toBottomOf="@id/penguin_name"
-        android:layout_marginStart="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="8dp"
+
         />
 
     <TextView
         android:id="@+id/height_information"
-        tools:text="temp height text"
-        android:layout_width="wrap_content"
+        tools:text="XXX"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/eat_information"
         app:layout_constraintStart_toEndOf="@id/height"
-        android:layout_marginStart="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="170dp"
         android:layout_marginTop="8dp"
         />
 
