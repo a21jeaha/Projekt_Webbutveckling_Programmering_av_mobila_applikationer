@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class PenguinRecyclerAdapter extends RecyclerView.Adapter<PenguinRecyclerAdapter.ViewHolder> {
@@ -63,7 +65,7 @@ public class PenguinRecyclerAdapter extends RecyclerView.Adapter<PenguinRecycler
         holder.penguinName.setText(penguins.get(position).getName());
         holder.penguinEats.setText(penguins.get(position).getEats());
         holder.penguinSize.setText(penguins.get(position).getSize());
-        //////////////////// DONT FORGET TO IMPLEMENT THE IMAGE, AND FIGURE OUT HOW TO SEND OVER DATA (through intent)
+        Picasso.get().load(penguins.get(position).getAuxdata().getImg()).resize(50, 50).into(holder.penguinImage);
     }
 
     @Override

@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends AppCompatActivity {     // hela aktiviteten är en Webview som öppnar den intärna sidan "penguin_about.html"
 
     WebView penguinAboutWebview;
 
