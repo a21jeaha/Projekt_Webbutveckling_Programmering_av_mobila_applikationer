@@ -65,7 +65,7 @@ public class PenguinRecyclerAdapter extends RecyclerView.Adapter<PenguinRecycler
         holder.penguinName.setText(penguins.get(position).getName());
         holder.penguinEats.setText(penguins.get(position).getEats());
         holder.penguinSize.setText(penguins.get(position).getSize());
-        Picasso.get().load(penguins.get(position).getAuxdata().getImg()).resize(50, 50).into(holder.penguinImage);
+        Picasso.get().load(penguins.get(position).getAuxdata().getImg()).resize(200, 200).into(holder.penguinImage);
     }
 
     @Override
