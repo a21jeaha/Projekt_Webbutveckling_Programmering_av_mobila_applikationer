@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
-            android:name=".detail_penguin"
+            android:name=".Detail_penguin"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

@@ -14,6 +14,7 @@ public class Penguin {
         this.eats = eats;
         this.size = size;
         this.auxdata = auxdata;
+
     }
 
     public String getName() {

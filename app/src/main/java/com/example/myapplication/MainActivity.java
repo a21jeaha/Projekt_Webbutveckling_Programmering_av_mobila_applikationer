@@ -32,14 +32,15 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         setContentView(R.layout.activity_main);
 
         gson = new Gson();
-        intent = new Intent(MainActivity.this, );
+        intent = new Intent(MainActivity.this, Detail_penguin.class );
 
         penguins = new ArrayList<>();
 
         penguinRecyclerAdapter = new PenguinRecyclerAdapter(this, penguins, new PenguinRecyclerAdapter.OnClickListener() {
             @Override
             public void onClick(Penguin penguin) {
-                intent()
+                intent.putExtra("detailInfo", penguin.getAuxdata().getInfo());
+                startActivity(intent);
             }
         });
 
