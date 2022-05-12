@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 public class AboutActivity extends AppCompatActivity {
 
@@ -15,7 +16,8 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about);
 
         penguinAboutWebview = findViewById(R.id.penguin_about_www);
-        penguinAboutWebview.loadUrl("file:///asset/about.html");
+        penguinAboutWebview.setWebViewClient(new WebViewClient());
+        penguinAboutWebview.loadUrl("file:///android_asset/penguin_about.html");
 
     }
 }

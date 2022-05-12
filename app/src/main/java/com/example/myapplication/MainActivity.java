@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -18,13 +20,17 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
     private final String JSON_URL = "https://mobprog.webug.se/json-api?login=a21jeaha";
 
+    FloatingActionButton floatingActionButton1;
+
+
     private RecyclerView recyclerView;
     private PenguinRecyclerAdapter penguinRecyclerAdapter;
 
     private ArrayList<Penguin> penguins;
 
     private Gson gson;
-    private Intent intent;
+    private Intent intentDetail;
+    private Intent intentAbout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +38,27 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         setContentView(R.layout.activity_main);
 
         gson = new Gson();
-        intent = new Intent(MainActivity.this, Detail_penguin.class );
+        intentDetail = new Intent(MainActivity.this, Detail_penguin.class );
+        intentAbout = new Intent(MainActivity.this, AboutActivity.class);
 
         penguins = new ArrayList<>();
+
+        floatingActionButton1 = findViewById(R.id.floatingActionButton);
+
+
+        floatingActionButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(intentAbout);
+            }
+        });
+
 
         penguinRecyclerAdapter = new PenguinRecyclerAdapter(this, penguins, new PenguinRecyclerAdapter.OnClickListener() {
             @Override
             public void onClick(Penguin penguin) {
-                intent.putExtra("detailInfo", penguin.getAuxdata().getInfo());
-                startActivity(intent);
+                intentDetail.putExtra("detailInfo", penguin.getAuxdata().getInfo());
+                startActivity(intentDetail);
             }
         });
 
