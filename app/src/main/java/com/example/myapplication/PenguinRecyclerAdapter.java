@@ -31,7 +31,7 @@ public class PenguinRecyclerAdapter extends RecyclerView.Adapter<PenguinRecycler
         private TextView penguinName;
         private TextView penguinEats;
         private TextView penguinSize;
-        private TextView penguinDetaildInfo;
+        private TextView penguinDetaildInfo;     // kanske bör tas bort
         private ImageView penguinImage;
 
 
@@ -44,7 +44,7 @@ public class PenguinRecyclerAdapter extends RecyclerView.Adapter<PenguinRecycler
             penguinEats = itemView.findViewById(R.id.eat_information);
             penguinSize = itemView.findViewById(R.id.height_information);
             penguinImage = itemView.findViewById(R.id.penguin_image);
-            penguinDetaildInfo = itemView.findViewById(R.id.information_window);
+            penguinDetaildInfo = itemView.findViewById(R.id.information_window);// kanske bör tas bort
 
         }
 
