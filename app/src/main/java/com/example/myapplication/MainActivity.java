@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -20,7 +21,10 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
     private final String JSON_URL = "https://mobprog.webug.se/json-api?login=a21jeaha";
 
-    FloatingActionButton floatingActionButton1;
+    private FloatingActionButton floatingActionButton1;
+    private Button sortByName;
+    private Button sortByHeigt;
+    private Button sortByDefault;
 
 
     private RecyclerView recyclerView;
@@ -43,14 +47,39 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         penguins = new ArrayList<>();
 
+        sortByName = findViewById(R.id.by_name);
+        sortByHeigt = findViewById(R.id.by_height);
+        sortByDefault = findViewById(R.id.by_default);
         floatingActionButton1 = findViewById(R.id.floatingActionButton);
 
+
+
+        sortByName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sortBy(sortByName);
+            }
+        });
+        sortByHeigt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sortBy(sortByHeigt);
+            }
+        });
+        sortByDefault.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sortBy(sortByDefault);
+            }
+        });
         floatingActionButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(intentAbout);
             }
         });
+
+
 
         penguinRecyclerAdapter = new PenguinRecyclerAdapter(this, penguins, new PenguinRecyclerAdapter.OnClickListener() {
             @Override
@@ -81,6 +110,9 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         penguinRecyclerAdapter.setPenguins(penguins);
         penguinRecyclerAdapter.notifyDataSetChanged();
+
+    }
+    private void sortBy(Button pressedButton){         /// fill out with funktionality
 
     }
 }
