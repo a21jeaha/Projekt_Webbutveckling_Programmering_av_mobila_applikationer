@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
             @Override
             public void onClick(Penguin penguin) {
                 intentDetail.putExtra("detailInfo", penguin.getAuxdata().getInfo());
+                intentDetail.putExtra("detail_name", penguin.getName());
                 intentDetail.putExtra("penguin_image", penguin.getAuxdata().getImg());
                 startActivity(intentDetail);
             }

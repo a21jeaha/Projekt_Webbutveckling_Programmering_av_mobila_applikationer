@@ -16,6 +16,7 @@ public class Detail_penguin extends AppCompatActivity {
 
     FloatingActionButton floatingActionButton2;
     TextView detailInfoWindow;
+    TextView detailName;
     ImageView penguinImageBig;
     Bundle bundle;
     Intent aboutIntent;
@@ -31,6 +32,7 @@ public class Detail_penguin extends AppCompatActivity {
 
         floatingActionButton2 = findViewById(R.id.floatingActionButton2);
         detailInfoWindow = findViewById(R.id.information_window);
+        detailName = findViewById(R.id.detail_name);
         penguinImageBig = findViewById(R.id.detail_image);
 
         detailInfoWindow.setMovementMethod(new ScrollingMovementMethod());
@@ -48,8 +50,11 @@ public class Detail_penguin extends AppCompatActivity {
 
         if (bundle != null){
             String info = bundle.getString("detailInfo");
+            String name = bundle.getString("detail_name");
             String img = bundle.getString("penguin_image");
+
             detailInfoWindow.setText(info);
+            detailName.setText(name);
             Picasso.get().load(img).resize(300, 300).into(penguinImageBig);
         }
 
