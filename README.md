@@ -1,7 +1,7 @@
 
 # Rapport Projekt
-
-**Webbtjänst - JSON**
+# Skiss/design-idé
+# Webbtjänst - JSON
 
 I JSON Strängen används attributen, namn, location, size och auxdata, som i sin tur innehåller attributen info och img.
 
@@ -29,3 +29,6 @@ I JSON Strängen används attributen, namn, location, size och auxdata, som i si
     }
 }
 ````
+# Implementationsexempel
+# Implementationsexempel VG
+# Reflektion
