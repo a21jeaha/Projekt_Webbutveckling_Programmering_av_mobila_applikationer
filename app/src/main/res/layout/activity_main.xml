@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="50dp"
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,25 +43,25 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sort_by"
+            android:text="@string/filter_height"
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/by_name"
-            android:layout_width="wrap_content"
+            android:id="@+id/over_70"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="@string/by_name"
+            android:text="@string/over70"
             />
 
         <Button
-            android:id="@+id/by_height"
-            android:layout_width="wrap_content"
+            android:id="@+id/under_70"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="Height"
+            android:text="@string/under70"
             />
 
         <Button
-            android:id="@+id/by_default"
+            android:id="@+id/filter_default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Default"

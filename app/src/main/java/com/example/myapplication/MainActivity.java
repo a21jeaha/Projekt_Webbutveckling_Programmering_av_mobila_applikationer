@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.job.JobInfo;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -25,10 +24,15 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
     private final String JSON_URL = "https://mobprog.webug.se/json-api?login=a21jeaha";
 
+    private final String over = "over";
+    private final String under = "under";
+    private final String _default = "default";
+    private final String fetch = "fetch";
+
     private FloatingActionButton floatingActionButton1;
-    private Button sortByName;
-    private Button sortByHeigt;
-    private Button sortByDefault;
+    private Button filterOver70;
+    private Button filterUnder70;
+    private Button filterDefault;
 
 
     private RecyclerView recyclerView;
@@ -58,29 +62,29 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         penguins = new ArrayList<>();
 
-        sortByName = findViewById(R.id.by_name);
-        sortByHeigt = findViewById(R.id.by_height);
-        sortByDefault = findViewById(R.id.by_default);
+        filterOver70 = findViewById(R.id.over_70);
+        filterUnder70 = findViewById(R.id.under_70);
+        filterDefault = findViewById(R.id.filter_default);
         floatingActionButton1 = findViewById(R.id.floatingActionButton);
 
 
 
-        sortByName.setOnClickListener(new View.OnClickListener() {
+        filterOver70.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sortBy(sortByName);
+                fetchDB(over);
             }
         });
-        sortByHeigt.setOnClickListener(new View.OnClickListener() {
+        filterUnder70.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sortBy(sortByHeigt);
+                fetchDB(under);
             }
         });
-        sortByDefault.setOnClickListener(new View.OnClickListener() {
+        filterDefault.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sortBy(sortByDefault);
+                fetchDB(_default);
             }
         });
         floatingActionButton1.setOnClickListener(new View.OnClickListener() {
@@ -116,11 +120,22 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     @Override
     public void onPostExecute(String json) {                            // Unmarshall Json strängen med hjälp av GSON
 
-        databaseHelper.getWritableDatabase().execSQL(" DELETE FROM " + DatabaseHelper.TABLE_PENGUIN);        // TA BORT NÄR DU ÄR KLAR MED DEM.
-        databaseHelper.getWritableDatabase().execSQL(" DELETE FROM " + DatabaseHelper.TABLE_AUXDATA);
 
-        Type type = new TypeToken<ArrayList<Penguin>>() {}.getType();
-        penguins = gson.fromJson( json, type);
+        //        databaseHelper.getWritableDatabase().execSQL(" DELETE FROM " + DatabaseHelper.TABLE_PENGUIN);        // TA BORT NÄR DU ÄR KLAR MED DEM.
+        //        databaseHelper.getWritableDatabase().execSQL(" DELETE FROM " + DatabaseHelper.TABLE_AUXDATA);
+
+
+        try {
+               fetchDB(fetch);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+
+        if (penguins.isEmpty()) {       /// FINISH THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!
+        Type type = new TypeToken<ArrayList<Penguin>>() {
+        }.getType();
+        penguins = gson.fromJson(json, type);
 
         penguinRecyclerAdapter.setPenguins(penguins);
         penguinRecyclerAdapter.notifyDataSetChanged();
@@ -144,17 +159,40 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
             databaseHelper.getWritableDatabase().insert(DatabaseHelper.TABLE_PENGUIN, null, values);
             databaseHelper.getWritableDatabase().insert(DatabaseHelper.TABLE_AUXDATA, null, values2);
         }
-
+    }
+    else { Log.d (":D", ":D"); }
 
 
     }
-    private void sortBy(Button pressedButton){         /// fill out with funktionality
 
+
+    private void fetchDB (String sortOrGetDB){
+
+        Cursor cursor = null;
         ArrayList<Penguin> tempPenguinList = new ArrayList<>();
 
-        Cursor cursor = databaseHelper.getReadableDatabase().rawQuery
-                (" SELECT * FROM " + DatabaseHelper.TABLE_PENGUIN + " INNER JOIN " + DatabaseHelper.TABLE_AUXDATA + " WHERE " + DatabaseHelper.COLUMN_ID + " = " + DatabaseHelper.COLUMN_ID_2 +
-                     " ORDER BY " + DatabaseHelper.COLUMN_SIZE, null, null); // glöm inte pressedButtin !!!!!!!!!!
+        if (sortOrGetDB.equals(fetch) || sortOrGetDB.equals(_default)) {
+
+            cursor = databaseHelper.getReadableDatabase().rawQuery
+                    (" SELECT * FROM " + DatabaseHelper.TABLE_PENGUIN + " INNER JOIN " + DatabaseHelper.TABLE_AUXDATA +
+                                    " WHERE " + DatabaseHelper.COLUMN_ID + " = " + DatabaseHelper.COLUMN_ID_2,
+                            null, null);
+
+        }
+        else if (sortOrGetDB.equals(over)){
+
+            cursor = databaseHelper.getReadableDatabase().rawQuery
+                    (" SELECT * FROM " + DatabaseHelper.TABLE_PENGUIN + " INNER JOIN " + DatabaseHelper.TABLE_AUXDATA + " WHERE " + DatabaseHelper.COLUMN_ID + " = " + DatabaseHelper.COLUMN_ID_2 +
+                            " AND " + DatabaseHelper.COLUMN_SIZE + ">" + 70, null, null);
+
+        }
+        else if (sortOrGetDB.equals(under)){
+
+            cursor = databaseHelper.getReadableDatabase().rawQuery
+                    (" SELECT * FROM " + DatabaseHelper.TABLE_PENGUIN + " INNER JOIN " + DatabaseHelper.TABLE_AUXDATA + " WHERE " + DatabaseHelper.COLUMN_ID + " = " + DatabaseHelper.COLUMN_ID_2 +
+                            " AND " + DatabaseHelper.COLUMN_SIZE + "<" + 70, null, null);
+
+        }
 
         while (cursor.moveToNext()){
 
@@ -172,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
                     auxdata
 
             );
-            tempPenguinList.add(penguin);               ///// ODSAHD APIUSGHD BOIUGSD
+            tempPenguinList.add(penguin);
 
         }
         cursor.close();

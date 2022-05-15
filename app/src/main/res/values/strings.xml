@@ -3,6 +3,7 @@
     <string name="about">about</string>
     <string name="eats">Eats:</string>
     <string name="height">Mean height:</string>
-    <string name="sort_by">Sort by:</string>
-    <string name="by_name">Name</string>
+    <string name="under70"><![CDATA[<70]]></string>
+    <string name="over70"><![CDATA[>70]]></string>
+    <string name="filter_height">Filter height</string>
 </resources>
