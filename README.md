@@ -44,6 +44,7 @@ Det enda aspektet ur skissen som inte implementerats som tänk vid skapadet av l
 Denna hanterades som vilken annan knapp som helst. se nedan. Knappen implementeras både i `activity_main` och `activity_deteil_penguin`, dessa ger ilusionen av att det bara är en enda knapp, men i själva värket är det två olika knappar.
 
 Länkar till relevanta commits:  https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/tree/bb151bdce881a5d8513a3991fb91c401568f7bea
+                                
                                 https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/tree/a11f3700f52b782a8693d8621ad0d38093198ac6
 
 Den orginella tanken var att skappa en toolbar med knapp i, men vid skappandet och testandet insågs det att det redan fanns en toolbar installerad, den nya hamnade där med under den vilket inte gav det önskade resultatet.
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 figur 2.2
 
 ![](floatinactionbutton.jpg) Bild 2 
+
 ![](floating_action_button2.jpg) Bild 3
 
 **Implementations detalj 2**
@@ -146,6 +148,7 @@ figur 3.3
  ![](about_page.jpg) Bild 5
 
 Länk till relevanta commits:    https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/tree/70da24d6f0681c6b2d8f8751ef7383653e614e2a
+                                
                                 https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/tree/8c1b4962a4e07ea9dbb4f7f3aefc9d0bd970e27d
 
 # Implementationsexempel VG
