@@ -1,8 +1,10 @@
 
 # Rapport Projekt
+
 # Skiss/design-idé
 
 ![](skiss.jpg)
+Bild 1
 
 # Webbtjänst - JSON
 
@@ -32,6 +34,60 @@ I JSON Strängen används attributen, namn, location, size och auxdata, som i si
     }
 }
 ````
+figur 1
 # Implementationsexempel
+
+Det enda aspektet ur skissen som inte implementerats som tänk vid skapadet av layouten är "About"-knappen, detta då svårigheter uppkom kring hanteringen och ändringen av den förinstallerade "toolbaren". Istället valdes det att implementera en __"svävande knapp"__.
+Denna hanterades som vilken annan knapp som helst. se nedan. Knappen implementeras både i `activity_main` och `activity_deteil_penguin`, dessa ger ilusionen av att det bara är en enda knapp, men i själva värket är det två olika knappar.
+
+Länk till relevant commit: https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/tree/bb151bdce881a5d8513a3991fb91c401568f7bea
+
+Den orginella tanken var att skappa en toolbar med knapp i, men vid skappandet och testandet insågs det att det redan fanns en toolbar installerad, den nya hamnade där med under den vilket inte gav det önskade resultatet.
+Att arbeta med den förinstallerade toolbaren visade sig inte vara så enkelt, därför togs beslutet att ändra på layouten, man ser resultatet i bilden nedan. 
+
+```xml
+<com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="50dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_info_details"
+
+        />
+``` 
+figur 2
+
+````java
+public class MainActivity extends AppCompatActivity implements JsonTask.JsonTaskListener{
+// överflödig kod har tagits bort från denna kod 
+    
+    // knappar
+    private FloatingActionButton floatingActionButton1;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // knapp - widget association
+        floatingActionButton1 = findViewById(R.id.floatingActionButton);
+
+        // öppnar ny aktivitet
+        floatingActionButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(intentAbout);
+            }
+        });
+````
+figur 3 
+
+![](floatinactionbutton.jpg) ![](floating_action_button2.jpg)
+
+
 # Implementationsexempel VG
 # Reflektion
