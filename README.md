@@ -1,6 +1,9 @@
 
 # Rapport Projekt
 # Skiss/design-idé
+
+![](skiss.jpg)
+
 # Webbtjänst - JSON
 
 I JSON Strängen används attributen, namn, location, size och auxdata, som i sin tur innehåller attributen info och img.
