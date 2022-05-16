@@ -232,7 +232,7 @@ figur 3.0
 ```
 figur 3.1
 
-![](penguin_templat.jpg) Bild 6
+![](penguintemplat.jpg) Bild 6
 
 För att kunna använda en URL länk som bildkälla måste biblioteket Picasso implementeras i build.gradle. Utöver det implementerades bibliotek Circleimageview för att få bilderna runda. Detta kan ses i figur 3.2. För att få bilden rund skapas ImageViewn nu istället som en CircleImageView(se figur 3.3), i normala fall skrivs koden som vanligt efter detta. Men då bilden hämtas från en URL används som bekant Picasso.
 Åter till figur 3.1, här ses hämtandet av bild URL:en (som hämtas ur Penguin objektet), sedan ändras storleken på bilden, för att sis skickas till ImageViewn.
