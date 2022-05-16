@@ -278,4 +278,170 @@ https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_appli
 
 https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/tree/3874863d269f0bb9e95e48848d392cd3100c5bb4
 
+
+**Implementations detalj 4 VG**
+
+Databasen som används av programet innehåller information som skickas över från de objekt som skapats med hjälp av JSON strängen, problemen uppstår när informationen sedan hämtas från databasen vid skapandet av nya objekt.
+Detta då klassen `Penguin` innehåller ett annat objekt (auxdata) med egen information (URL och detaljerad information) som även den måste finnas med i skapandet av objektet. Det betyder då att två olika tabeller måste skapas för dessa separata klasser. Ett för Auxdata klassen och en annan för Penguin klassen. Detta kan ses i figur 3.1 i onCreate metoden.
+
+```java
+public class DatabaseHelper extends SQLiteOpenHelper {
+
+    private static final String DATABASE_NAME = "database";
+    private static final int DATABASE_VERSION = 1;
+
+    // Namn på Tabellerna
+    public static final String TABLE_PENGUIN = "penguin";
+    public static final String TABLE_AUXDATA = "auxdata";
+
+
+    // Tabellen penguin
+    public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_EATS = "eats";
+    public static final String COLUMN_SIZE = "size";
+
+
+    //tabellen auxdata
+    public static final String COLUMN_ID_2 = "_id2";
+    public static final String COLUMN_IMG = "img";
+    public static final String COLUMN_INFO = "info";
+
+
+    public DatabaseHelper(@Nullable Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {                              
+
+            // skapar en tabell för klassen `Penguin`
+            sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_PENGUIN + " " + "(" +           //<----------------------
+                                    COLUMN_ID + " TEXT PRIMARY KEY, " +
+                                    COLUMN_NAME + " TEXT, " +
+                                    COLUMN_EATS + " TEXT, " +
+                                    COLUMN_SIZE + " INTEGER )"
+            );
+
+            // skapar en tabell för klassen ´Auxdata´
+            sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_AUXDATA + " (" +                //<----------------------
+                                    COLUMN_ID_2 + " TEXT PRIMARY KEY, " +
+                                    COLUMN_INFO + " TEXT, " +
+                                    COLUMN_IMG + " TEXT)"
+            );
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+
+    }
+}
+```
+figur 4.1
+
+I klassen Penguin ser vi bland annat att det nu finns en variabel som heter _id, denna kommer att identifiera instanser av objekt, detta måste göras för att kunna joina de båda tabellerna till en enda tabel vilket syns tydligare i figur 4.3 i de sökningar som görs mot databasen.
+
+````java
+public class Penguin {
+    @SerializedName("ID")
+    private String _id;
+    private String name;
+    @SerializedName("location")
+    private String eats;
+    private String size;
+    private Auxdata auxdata;
+
+    public Penguin(String _id, String name, String eats, String size, Auxdata auxdata) {
+        this._id = _id;
+        this.name = name;
+        this.eats = eats;
+        this.size = size;
+        this.auxdata = auxdata;
+
+    }
+}
+````
+figur 4.2
+
+
+```java
+//Utför sökningar i databasen.
+    private void fetchDB (String filterOrGetDB){
+
+        // tömmer innehållet i den nuvarande ArrayListen, detta så att det inte förekommer dubbla instanser i recycleViewn.
+        penguins.clear();
+
+        Cursor cursor = null;
+
+        ArrayList<Penguin> tempPenguinList = new ArrayList<>();
+
+        // hämtar ALL data i databasen
+        if (filterOrGetDB.equals(fetch) || filterOrGetDB.equals(_default)) {
+
+            cursor = databaseHelper.getReadableDatabase().rawQuery
+                    (" SELECT * FROM " + DatabaseHelper.TABLE_PENGUIN + " INNER JOIN " + DatabaseHelper.TABLE_AUXDATA +
+                                    " WHERE " + DatabaseHelper.COLUMN_ID + " = " + DatabaseHelper.COLUMN_ID_2,
+                            null, null);
+
+        }
+
+        // Sorterings sökningar--------------------------------
+
+        // hämtar data där vikten är högre än 70kg
+        else if (filterOrGetDB.equals(over)){
+
+            cursor = databaseHelper.getReadableDatabase().rawQuery
+                    (" SELECT * FROM " + DatabaseHelper.TABLE_PENGUIN + " INNER JOIN " + DatabaseHelper.TABLE_AUXDATA + " WHERE " + DatabaseHelper.COLUMN_ID + " = " + DatabaseHelper.COLUMN_ID_2 +
+                            " AND " + DatabaseHelper.COLUMN_SIZE + ">" + 70, null, null);
+
+        }
+        // hämtar data där vikten är under 70
+        else if (filterOrGetDB.equals(under)){
+
+            cursor = databaseHelper.getReadableDatabase().rawQuery
+                    (" SELECT * FROM " + DatabaseHelper.TABLE_PENGUIN + " INNER JOIN " + DatabaseHelper.TABLE_AUXDATA + " WHERE " + DatabaseHelper.COLUMN_ID + " = " + DatabaseHelper.COLUMN_ID_2 +
+                            " AND " + DatabaseHelper.COLUMN_SIZE + "<" + 70, null, null);
+
+        }
+        //-----------------------------------------------------
+
+        // innehållet i databasen skickas till objekt, dessa fyller sedan an ArrayList
+        // då classen ´Penguin´ innehåller en annan klass som även den får data, måste den skapas också
+
+        while (cursor.moveToNext()){
+
+            // en instanse av auxdata skapas, med informationen från databasen
+            Auxdata auxdata = new Auxdata(
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID_2)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_INFO)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_IMG))
+            );
+
+            // en instanse av Penguin skapas, med informationen från databasen och den nyligen skapade objektet auxdata
+            Penguin penguin = new Penguin(
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NAME)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_EATS)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_SIZE)),
+                    auxdata
+
+            );
+            // objekten stoppas in i denna temporära lista
+            tempPenguinList.add(penguin);
+
+        }
+        cursor.close();
+
+        // hela innehållet skickas över till ArrayListen `penguins`
+        penguins.addAll(tempPenguinList);
+        penguinRecyclerAdapter.notifyDataSetChanged();
+
+        // ett preference sparas OM sökningen var gjord för sortering
+        if (filterOrGetDB != fetch) {
+            penguinListPreferenceEditor.putString("chosen_filter", filterOrGetDB);
+            penguinListPreferenceEditor.commit();
+        }
+    }
+```
+figur 4.3
 # Reflektion
