@@ -43,9 +43,11 @@ figur 1
 Det enda aspektet ur skissen som inte implementerats som tänk vid skapadet av layouten är "About"-knappen, detta då svårigheter uppkom kring hanteringen och ändringen av den förinstallerade "toolbaren". Istället valdes det att implementera en __"svävande knapp"__.
 Denna hanterades som vilken annan knapp som helst. se nedan. Knappen implementeras både i `activity_main` och `activity_deteil_penguin`, dessa ger ilusionen av att det bara är en enda knapp, men i själva värket är det två olika knappar.
 
-Länkar till relevanta commits:  https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/tree/bb151bdce881a5d8513a3991fb91c401568f7bea
-                                
-                                https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/tree/a11f3700f52b782a8693d8621ad0d38093198ac6
+Länkar till relevanta commits:  
+
+https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/tree/bb151bdce881a5d8513a3991fb91c401568f7bea
+
+https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/tree/a11f3700f52b782a8693d8621ad0d38093198ac6
 
 Den orginella tanken var att skappa en toolbar med knapp i, men vid skappandet och testandet insågs det att det redan fanns en toolbar installerad, den nya hamnade där med under den vilket inte gav det önskade resultatet.
 Att arbeta med den förinstallerade toolbaren visade sig inte vara så enkelt, därför togs beslutet att ändra på layouten, man ser resultatet i bilden nedan. 
@@ -147,9 +149,134 @@ figur 3.3
 
  ![](about_page.jpg) Bild 5
 
-Länk till relevanta commits:    https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/tree/70da24d6f0681c6b2d8f8751ef7383653e614e2a
+För någon anledning så skrevs inte AboutActivity in i manifestet, var tvungen att skriva in det manuellt.
+
+```xml
+     <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MyApplication">
+        <activity                                       //
+            android:name=".AboutActivity"               //   <----- 
+            android:exported="false" />                 //
+        <activity
+            android:name=".Detail_penguin"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+```
+figur 3.4
+
+Länk till relevanta commits:    
+
+https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/tree/70da24d6f0681c6b2d8f8751ef7383653e614e2a
                                 
-                                https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/tree/8c1b4962a4e07ea9dbb4f7f3aefc9d0bd970e27d
+https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/tree/8c1b4962a4e07ea9dbb4f7f3aefc9d0bd970e27d
+
+
+
 
 # Implementationsexempel VG
+
+**Implementations detalj 3 VG**
+
+I recyclerViewn tar 4 widgets emot information som hämtats ur de data som hämtats från JSON strängen, dessa inkluderar pingvinns namn, medelhöjd, diet och en URL länk för en bild. Det färdiga resultatet kan ses i bild 6. 
+Detta görs i denna metod (figur 3.1) som körs i recycler adaptern, alla Widgets med undantag för ImageViewn får sin data på exakt samma sätt, en Widget behöver bara accosieras med en variabel i java koden och sedan "sätts" innehållet . Andledningen är att bilder normalt inte går att implementera via URL.
+
+````java
+public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+        // de views som fylls via adaptern
+        private TextView penguinName;
+        private TextView penguinEats;
+        private TextView penguinSize;
+        private ImageView penguinImage;
+
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            itemView.setOnClickListener(this);
+
+            penguinName = itemView.findViewById(R.id.penguin_name);
+            penguinEats = itemView.findViewById(R.id.eat_information);
+            penguinSize = itemView.findViewById(R.id.height_information);
+            penguinImage = itemView.findViewById(R.id.penguin_image);
+        }
+
+````
+figur 3.0
+
+```java
+  // fyller layouten med information
+    @Override
+    public void onBindViewHolder(@NonNull PenguinRecyclerAdapter.ViewHolder holder, int position) {
+        holder.penguinName.setText(penguins.get(position).getName());
+        holder.penguinEats.setText(penguins.get(position).getEats());
+        holder.penguinSize.setText(penguins.get(position).getSize());
+        Picasso.get().load(penguins.get(position).getAuxdata().getImg()).resize(200, 200).into(holder.penguinImage);      // <---- PICASSO
+    }
+```
+figur 3.1
+
+![](penguin_templat.jpg) Bild 6
+
+För att kunna använda en URL länk som bildkälla måste biblioteket Picasso implementeras i build.gradle. Men det implementerades ett bibliotek till för att få bilderna runda. Circleimageview implementerades för att göra det möjligt.
+Detta kan ses i figur 3.2. För att göra det möjligt skapas ImageViewn nu istället som en CircleImageView(se figur 3.3), i normala fall skrivs koden som vanligt efter detta. Men då bilden hämtas från en URL används som bekant Picasso.
+Åter till figur 3.1, här ses hämtandet av bild URL:en (som hämtas ur Penguin objektet), sedan ändras storleken på bilden, för att sis skickas till ImageViewn.
+
+````groovy
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation 'com.google.code.gson:gson:2.9.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'                   //    <----
+    implementation  'de.hdodenhof:circleimageview:3.1.0'                    //    <----
+}
+````
+figur 3.2
+
+```xml
+Notera namnet!
+
+<de.hdodenhof.circleimageview.CircleImageView       
+android:src="@color/purple_200"
+android:id="@+id/penguin_image"
+android:layout_width="90dp"
+android:layout_height="90dp"
+app:layout_constraintTop_toTopOf="parent"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+android:layout_marginEnd="300dp"
+/>
+```
+figur 3.3
+
+Länkar till relevanta commits: 
+
+https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/tree/80241420bddbfcdd82a1434464f21a6950f0b905
+
+https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/tree/b1e7d070eed00fb11f307c112ade7835ab9a36da
+
+https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/tree/3874863d269f0bb9e95e48848d392cd3100c5bb4
+
 # Reflektion
