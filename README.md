@@ -35,7 +35,10 @@ I JSON Strängen används attributen, namn, location, size och auxdata, som i si
 }
 ````
 figur 1
+
 # Implementationsexempel
+
+*Implementations detailj 1*
 
 Det enda aspektet ur skissen som inte implementerats som tänk vid skapadet av layouten är "About"-knappen, detta då svårigheter uppkom kring hanteringen och ändringen av den förinstallerade "toolbaren". Istället valdes det att implementera en __"svävande knapp"__.
 Denna hanterades som vilken annan knapp som helst. se nedan. Knappen implementeras både i `activity_main` och `activity_deteil_penguin`, dessa ger ilusionen av att det bara är en enda knapp, men i själva värket är det två olika knappar.
@@ -59,7 +62,7 @@ Att arbeta med den förinstallerade toolbaren visade sig inte vara så enkelt, d
 
         />
 ``` 
-figur 2
+figur 2.1
 
 ````java
 public class MainActivity extends AppCompatActivity implements JsonTask.JsonTaskListener{
@@ -84,10 +87,61 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
             }
         });
 ````
-figur 3 
+figur 2.2
 
-![](floatinactionbutton.jpg) ![](floating_action_button2.jpg)
+![](floatinactionbutton.jpg) Bild 2 ![](floating_action_button2.jpg) Bild 3
 
+*Implementations detalj 2*
+
+About aktiviteten implementerades i en ny klass med en WebView som använder sig av en intern __HTML-fil__ för att presentera informationen, denna öppnas med hjälp av ovan nämnda knapp och ett intent (se figur 3.1 och 3.2).
+HTML-filen som innehåller informationen placerades i mappen assets som skapats (se bild 4). I klassen `AboutActivity`laddas sedan HTML-filen i den skapade WebViewn. 
+
+
+```java
+// SKRIVEN I MAIN
+
+// intents mellan MainActivity, och de andra relaterade aktiviteterna
+        intentDetail = new Intent(MainActivity.this, Detail_penguin.class );
+        intentAbout = new Intent(MainActivity.this, AboutActivity.class);       <---  Denna intent
+```
+figur 3.1
+
+```java
+    // SKRIVEN I onCreate()
+
+   // öppnar ny aktivitet
+        floatingActionButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(intentAbout);
+            }
+        });
+```
+figur 3.2
+
+
+![](assets_html.jpg) Bild 4
+
+````java
+public class AboutActivity extends AppCompatActivity {     // hela aktiviteten är en Webview som öppnar den intärna sidan "penguin_about.html"
+
+    WebView penguinAboutWebview;                
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_about);
+
+        penguinAboutWebview = findViewById(R.id.penguin_about_www);
+        penguinAboutWebview.setWebViewClient(new WebViewClient());
+        penguinAboutWebview.loadUrl("file:///android_asset/penguin_about.html");
+
+    }
+}
+````
+figur 3.3
+
+ ![](about_page.jpg) Bild 5
 
 # Implementationsexempel VG
 # Reflektion
