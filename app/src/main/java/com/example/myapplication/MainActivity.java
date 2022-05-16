@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     @Override
     public void onPostExecute(String json) {
 
-        // möjlig data försöks att hämtas från databasen, för att se ifall den är tom.
+        // Ett försök att hämta data från databasen, för att se ifall den är tom.
         try {
                fetchDB(fetch);
         } catch (NullPointerException e) {

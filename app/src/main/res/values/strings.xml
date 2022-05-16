@@ -7,4 +7,5 @@
     <string name="over70"><![CDATA[>70]]></string>
     <string name="filter_height">Filter height</string>
     <string name="kg">kg</string>
+    <string name="cm">cm</string>
 </resources>

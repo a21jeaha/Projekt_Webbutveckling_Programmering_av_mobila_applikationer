@@ -95,7 +95,7 @@ figur 2.2
 
 ![](floatinactionbutton.jpg) Bild 2 
 
-![](floating_action_button2.jpg) Bild 3
+![](floatingactionbutton2.jpg) Bild 3
 
 **Implementations detalj 2**
 
@@ -339,12 +339,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 ```
 figur 4.1
 
-I klassen Penguin ser vi bland annat att det nu finns en variabel som heter _id, denna kommer att identifiera instanser av objekt, detta måste göras för att kunna joina de båda tabellerna till en enda tabel vilket syns tydligare i figur 4.3 i de sökningar som görs mot databasen.
+I klassen Penguin har en variabel som heter _id skapats, denna kommer att identifiera instanser av objekt både i ´Penguin´ och `Auxdata`, detta måste göras för att kunna joina de båda tabellerna till en enda tabel vilket syns tydligare i figur 4.3 i de sökningar som görs mot databasen.
 
 ````java
 public class Penguin {
-    @SerializedName("ID")
-    private String _id;
+    @SerializedName("ID")     //<----
+    private String _id;       //<----
     private String name;
     @SerializedName("location")
     private String eats;
@@ -363,6 +363,7 @@ public class Penguin {
 ````
 figur 4.2
 
+För att förenkla förklaringen kring databasen då figur 4.3 är ganska lång, har en stor del av informationen satts som kommentarer i figuren, men kortfattat så tar metoden hand om sortering och hämtning av data i databasen. samt sparandet av sorteringen som gjorts i form av __preferences__.
 
 ```java
 //Utför sökningar i databasen.
@@ -444,4 +445,40 @@ figur 4.2
     }
 ```
 figur 4.3
+
+Metoden i figur 4.3, skapades för att hantera flera olika situationen den ska bland annat klara av att hämta data ur database antingen filtrerad eller ofiltrerad, den ska även veta när det är lämpligt att komma ihåg vilken sortering som gjorts.  
+Detta löstes genom skickandet av sträng variabler vid metodanropen, exempelviss så hämtas all data när strängvariabeln **fetch** skickas, medan pingvinerna som är under 70 cm hämtas om **under** anges. Kan även noteras att den senaste sökningen alltid sparas såvida inte **fetch** anges, vilket ses i slutet av figur 4.3(fetch används endast för att kontrollera ifall databasen är tom). 
+
+````java
+// Unmarshall Json strängen med hjälp av GSON
+    @Override
+    public void onPostExecute(String json) {
+
+        // Ett försök att hämta data från databasen, för att se ifall den är tom.
+        try {
+               fetchDB(fetch);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        // om databasen var tom startas arbetet med att hämta JSON strängen med den data som behövs.
+        if (penguins.isEmpty()) {
+
+            //Unmarshall
+            Type type = new TypeToken<ArrayList<Penguin>>() {}.getType();
+            penguins = gson.fromJson(json, type);
+
+            penguinRecyclerAdapter.setPenguins(penguins);
+            penguinRecyclerAdapter.notifyDataSetChanged();
+
+            // Den hämtade datan sätts in i databasen, via metoden `insertToDB()`
+            insertToDB();
+
+        }else   // Fanns det data i databasen kontrolles det ifall det finns ett sparat preference. (en variabel som används för att identifiera vilken databas sökning som ska utföras)
+                { fetchDB(penguinListPreference.getString("chosen_filter", _default));}
+    }
+````
+figur 4.4 
+
+
 # Reflektion
