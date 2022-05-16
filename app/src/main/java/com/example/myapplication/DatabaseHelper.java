@@ -36,6 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
+            // skapar en tabell för klassen `Penguin`
             sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_PENGUIN + " " + "(" +
                                     COLUMN_ID + " TEXT PRIMARY KEY, " +
                                     COLUMN_NAME + " TEXT, " +
@@ -43,6 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                                     COLUMN_SIZE + " INTEGER )"
             );
 
+            // skapar en tabell för klassen ´Auxdata´
             sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_AUXDATA + " (" +
                                     COLUMN_ID_2 + " TEXT PRIMARY KEY, " +
                                     COLUMN_INFO + " TEXT, " +

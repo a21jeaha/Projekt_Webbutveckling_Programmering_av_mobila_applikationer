@@ -28,10 +28,10 @@ public class PenguinRecyclerAdapter extends RecyclerView.Adapter<PenguinRecycler
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
+        // de views som fylls via adaptern
         private TextView penguinName;
         private TextView penguinEats;
         private TextView penguinSize;
-        private TextView penguinDetaildInfo;     // kanske bör tas bort
         private ImageView penguinImage;
 
 
@@ -44,22 +44,23 @@ public class PenguinRecyclerAdapter extends RecyclerView.Adapter<PenguinRecycler
             penguinEats = itemView.findViewById(R.id.eat_information);
             penguinSize = itemView.findViewById(R.id.height_information);
             penguinImage = itemView.findViewById(R.id.penguin_image);
-            penguinDetaildInfo = itemView.findViewById(R.id.information_window);// kanske bör tas bort
-
         }
 
+        // Skickar vidare informationen om vilket den i recyclerViewn som klickats på
         @Override
         public void onClick(View view) {
             onClickListener.onClick(penguins.get(getAdapterPosition()));
         }
     }
 
+    // hämtar layouten för raderna
     @NonNull
     @Override
     public PenguinRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.pinguin_item_template, parent, false));
     }
 
+    // fyller layouten med information
     @Override
     public void onBindViewHolder(@NonNull PenguinRecyclerAdapter.ViewHolder holder, int position) {
         holder.penguinName.setText(penguins.get(position).getName());
@@ -68,15 +69,18 @@ public class PenguinRecyclerAdapter extends RecyclerView.Adapter<PenguinRecycler
         Picasso.get().load(penguins.get(position).getAuxdata().getImg()).resize(200, 200).into(holder.penguinImage);
     }
 
+    // har koll på hur många objekt det finns i recyclern
     @Override
     public int getItemCount() {
         return penguins.size();
     }
 
+
     public interface OnClickListener {
         void onClick(Penguin penguin);
     }
 
+    // ändrar innehållet i listan som recyclern arbetar med.
     public void setPenguins(ArrayList<Penguin> penguins){           // anropas när GSON unmarhel JSON strängen (från main activity)
         this.penguins = penguins;
     }
