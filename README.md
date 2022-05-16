@@ -193,8 +193,8 @@ https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_appli
 
 **Implementations detalj 3 VG**
 
-I recyclerViewn tar 4 widgets emot information som hämtats ur de data som hämtats från JSON strängen, dessa inkluderar pingvinns namn, medelhöjd, diet och en URL länk för en bild. Det färdiga resultatet kan ses i bild 6. 
-Detta görs i denna metod (figur 3.1) som körs i recycler adaptern, alla Widgets med undantag för ImageViewn får sin data på exakt samma sätt, en Widget behöver bara accosieras med en variabel i java koden och sedan "sätts" innehållet . Andledningen är att bilder normalt inte går att implementera via URL.
+I recyclerViewn tar 4 widgets emot information som hämtats ur de data som hämtats från JSON strängen, dessa inkluderar pingvinns __namn__, __medelhöjd__, __diet__ och en __URL__ länk för en bild. Det färdiga resultatet kan ses i bild 6. 
+Detta görs i denna metod (figur 3.1) som körs i recycler adaptern, alla Widgets med undantag för ImageViewn får sin data på exakt samma sätt (en Widget behöver bara accosieras med en variabel i java koden och sedan "sätts" innehållet), andledningen är att bilder normalt inte går att implementera via URL.
 
 ````java
 public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -234,8 +234,7 @@ figur 3.1
 
 ![](penguin_templat.jpg) Bild 6
 
-För att kunna använda en URL länk som bildkälla måste biblioteket Picasso implementeras i build.gradle. Men det implementerades ett bibliotek till för att få bilderna runda. Circleimageview implementerades för att göra det möjligt.
-Detta kan ses i figur 3.2. För att göra det möjligt skapas ImageViewn nu istället som en CircleImageView(se figur 3.3), i normala fall skrivs koden som vanligt efter detta. Men då bilden hämtas från en URL används som bekant Picasso.
+För att kunna använda en URL länk som bildkälla måste biblioteket Picasso implementeras i build.gradle. Utöver det implementerades bibliotek Circleimageview för att få bilderna runda. Detta kan ses i figur 3.2. För att få bilden rund skapas ImageViewn nu istället som en CircleImageView(se figur 3.3), i normala fall skrivs koden som vanligt efter detta. Men då bilden hämtas från en URL används som bekant Picasso.
 Åter till figur 3.1, här ses hämtandet av bild URL:en (som hämtas ur Penguin objektet), sedan ändras storleken på bilden, för att sis skickas till ImageViewn.
 
 ````groovy
