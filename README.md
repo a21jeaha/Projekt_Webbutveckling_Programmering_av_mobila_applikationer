@@ -12,10 +12,10 @@ I JSON Strängen används attributen, namn, location, size och auxdata, som i si
 
 "namn" attributen används för att namnge pingvinen, denna sträng kopplas d.v.s. till __TextView__ widgeten för namn.
 "location" innehåller text information om vad pingvinen äter för något, attributet döps om i Penguin klassen till "eats".
-"size" har värdet för den genomsnitliga storleken för sedda pingvin i meter.
+"size" har värdet för den genomsnittliga storleken för sedda pingvin i meter.
 "auxdata" är i sig ett eget objekt som skapas i objektet. Denna innehåller ytterligare två attribut.
-"auxdata (info)" innehåller den detalierade informationen om pingvinen i fråga.
-"auxdata (img)" innhåller URL:en till en bild på den pingvin som är relaterat till objektet   
+"auxdata (info)" innehåller den detaljerade informationen om pingvinen i fråga.
+"auxdata (img)" innehåller URL:en till en bild på den pingvin som är relaterat till objektet
 
 ````JSON
 {
@@ -40,8 +40,8 @@ figur 1
 
 **Implementations detailj 1**
 
-Det enda aspektet ur skissen som inte implementerats som tänk vid skapadet av layouten är "About"-knappen, detta då svårigheter uppkom kring hanteringen och ändringen av den förinstallerade "toolbaren". Istället valdes det att implementera en __"svävande knapp"__.
-Denna hanterades som vilken annan knapp som helst. se nedan. Knappen implementeras både i `activity_main` och `activity_deteil_penguin`, dessa ger ilusionen av att det bara är en enda knapp, men i själva värket är det två olika knappar.
+Den enda aspekten ur skissen som inte implementerats som tänk vid skapandet av layouten är "About"-knappen, detta då svårigheter uppkom kring hanteringen och ändringen av den förinstallerade "toolbaren". Istället valdes det att implementera en __"svävande knapp"__.
+Denna hanterades som vilken annan knapp som helst, se nedan. Knappen implementeras både i `activity_main` och `activity_deteil_penguin`, dessa ger illusionen av att det bara är en enda knapp, men i själva verket är det två olika knappar.
 
 Länkar till relevanta commits:  
 
@@ -49,8 +49,8 @@ https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_appli
 
 https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/tree/a11f3700f52b782a8693d8621ad0d38093198ac6
 
-Den orginella tanken var att skappa en toolbar med knapp i, men vid skappandet och testandet insågs det att det redan fanns en toolbar installerad, den nya hamnade där med under den vilket inte gav det önskade resultatet.
-Att arbeta med den förinstallerade toolbaren visade sig inte vara så enkelt, därför togs beslutet att ändra på layouten, man ser resultatet i bilden nedan. 
+Den originella tanken var att skapa en toolbar med knapp, men vid skapandet och testandet insågs det att det redan existerade en toolbar, den nya hamnade därmed under den förinstallerade, vilket inte gav det önskade resultatet.
+Att arbeta med den förinstallerade toolbaren visade sig inte heller vara så enkelt, därför togs beslutet att ändra på layouten, man ser resultatet i bild 3.
 
 ```xml
 <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -99,8 +99,8 @@ figur 2.2
 
 **Implementations detalj 2**
 
-About aktiviteten implementerades i en ny klass med en WebView som använder sig av en intern __HTML-fil__ för att presentera informationen, denna öppnas med hjälp av ovan nämnda knapp och ett intent (se figur 3.1 och 3.2).
-HTML-filen som innehåller informationen placerades i mappen assets som skapats (se bild 4). I klassen `AboutActivity`laddas sedan HTML-filen i den skapade WebViewn. 
+"About" aktiviteten implementerades i en ny klass med en WebView som använder sig av en intern _HTML-fil_ för att presentera informationen, denna öppnas med hjälp av ovan nämnda knapp och ett intent (se figur 3.1 och 3.2).
+HTML-filen som innehåller informationen placerades i mappen assets som skapats (se bild 4). I klassen `AboutActivity`, lades sedan HTML-filen i en WebView som skapats i `activity_about`.
 
 
 ```java
@@ -149,7 +149,7 @@ figur 3.3
 
  ![](about_page.jpg) Bild 5
 
-För någon anledning så skrevs inte AboutActivity in i manifestet, var tvungen att skriva in det manuellt.
+För någon anledning så skrevs inte AboutActivity in i manifestet, var därför tvungen att skriva in det manuellt.
 
 ```xml
      <application
@@ -193,8 +193,8 @@ https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_appli
 
 **Implementations detalj 3 VG**
 
-I recyclerViewn tar 4 widgets emot information som hämtats ur de data som hämtats från JSON strängen, dessa inkluderar pingvinns __namn__, __medelhöjd__, __diet__ och en __URL__ länk för en bild. Det färdiga resultatet kan ses i bild 6. 
-Detta görs i denna metod (figur 3.1) som körs i recycler adaptern, alla Widgets med undantag för ImageViewn får sin data på exakt samma sätt (en Widget behöver bara accosieras med en variabel i java koden och sedan "sätts" innehållet), andledningen är att bilder normalt inte går att implementera via URL.
+I recyclerViewn tar 4 widgets emot information som hämtas ur de data som exporterats från JSON strängen, dessa inkluderar pingvinens __namn__, __medelhöjd__, __diet__ och en __URL__-länk för en bild. Det färdiga resultatet kan ses i bild 6.
+Detta görs i metoden som ses i figur 3.1 som körs i recycler adaptern, alla Widgets med undantag för ImageViewn får sin data på exakt samma sätt (en Widget behöver bara associeras med en variabel i java koden och sedan "sätts" innehållet), anledningen är att bilder normalt inte går att implementera via URL.
 
 ````java
 public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -274,6 +274,8 @@ Länkar till relevanta commits:
 
 https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/tree/80241420bddbfcdd82a1434464f21a6950f0b905
 
+https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/tree/b30fa7363e4a807a498d8173f3f5dae24825181b
+
 https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/tree/b1e7d070eed00fb11f307c112ade7835ab9a36da
 
 https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/tree/3874863d269f0bb9e95e48848d392cd3100c5bb4
@@ -281,8 +283,8 @@ https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_appli
 
 **Implementations detalj 4 VG**
 
-Databasen som används av programet innehåller information som skickas över från de objekt som skapats med hjälp av JSON strängen, problemen uppstår när informationen sedan hämtas från databasen vid skapandet av nya objekt.
-Detta då klassen `Penguin` innehåller ett annat objekt (auxdata) med egen information (URL och detaljerad information) som även den måste finnas med i skapandet av objektet. Det betyder då att två olika tabeller måste skapas för dessa separata klasser. Ett för Auxdata klassen och en annan för Penguin klassen. Detta kan ses i figur 3.1 i onCreate metoden.
+Databasen som används av programmet innehåller information som skickas över från de objekt som skapats med hjälp av JSON strängen, problemen uppstår när informationen sedan hämtas från databasen vid skapandet av nya objekt.
+Detta då klassen `Penguin` innehåller ett annat objekt (auxdata) med egen information (URL och detaljerad information) som även de måste finnas med i skapandet av objektet. Det betyder då att två olika tabeller måste skapas för dessa separata klasser. Ett för Auxdata klassen och en annan för Penguin klassen. Detta kan ses i figur 3.1 i onCreate metoden.
 
 ```java
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -339,7 +341,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 ```
 figur 4.1
 
-I klassen Penguin har en variabel som heter _id skapats, denna kommer att identifiera instanser av objekt både i ´Penguin´ och `Auxdata`, detta måste göras för att kunna joina de båda tabellerna till en enda tabel vilket syns tydligare i figur 4.3 i de sökningar som görs mot databasen.
+I klassen Penguin har en variabel som heter "_id" skapats, denna kommer att identifiera instanser av objekt både i ´Penguin´ och `Auxdata`, detta måste göras för att kunna joina de båda tabellerna till en enda tabell vilket syns tydligare i figur 4.3 i de sökningar som görs mot databasen.
 
 ````java
 public class Penguin {
@@ -363,7 +365,7 @@ public class Penguin {
 ````
 figur 4.2
 
-För att förenkla förklaringen kring databasen då figur 4.3 är ganska lång, har en stor del av informationen satts som kommentarer i figuren, men kortfattat så tar metoden hand om sortering och hämtning av data i databasen. samt sparandet av sorteringen som gjorts i form av __preferences__.
+För att förenkla förklaringen kring databasen då figur 4.3 är ganska lång, har en stor del av informationen satts som kommentarer i figuren, men kortfattat så tar metoden hand om sortering och hämtning av data i databasen. Samt sparandet av sorteringen som gjorts i form av __preferences__.
 
 ```java
 //Utför sökningar i databasen.
@@ -446,8 +448,8 @@ För att förenkla förklaringen kring databasen då figur 4.3 är ganska lång,
 ```
 figur 4.3
 
-Metoden i figur 4.3, skapades för att hantera flera olika situationen den ska bland annat klara av att hämta data ur database antingen filtrerad eller ofiltrerad, den ska även veta när det är lämpligt att komma ihåg vilken sortering som gjorts.  
-Detta löstes genom skickandet av sträng variabler vid metodanropen, exempelviss så hämtas all data när strängvariabeln **fetch** skickas, medan pingvinerna som är under 70 cm hämtas om **under** anges. Kan även noteras att den senaste sökningen alltid sparas såvida inte **fetch** anges, vilket ses i slutet av figur 4.3(fetch används endast för att kontrollera ifall databasen är tom). 
+Metoden i figur 4.3, skapades för att hantera flera olika situationen den ska bland annat klara av att hämta data ur databasen antingen filtrerad eller ofiltrerad, den ska även veta när det är lämpligt att komma ihåg vilken sortering som gjorts.  
+Detta löstes genom skickandet av sträng variabler vid metodanropen, exempelvis så hämtas all data när strängvariabeln **fetch** skickas, medan pingvinerna som är under 70 cm hämtas om **under** anges. Kan även noteras att den senaste sökningen alltid sparas såvida inte **fetch** anges, vilket ses i slutet av figur 4.3(fetch används endast för att kontrollera ifall databasen är tom).
 
 ````java
 // Unmarshall Json strängen med hjälp av GSON
@@ -481,4 +483,16 @@ Detta löstes genom skickandet av sträng variabler vid metodanropen, exempelvis
 figur 4.4 
 
 
+![](filtered.jpg) Bild 7
+
+länkar till relevanta commits: 
+
+https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/tree/a02b005b8940886d7c12342b8703071b2d62f8c5
+
+https://github.com/a21jeaha/Projekt_Webbutveckling_Programmering_av_mobila_applikationer/commit/d52b744411c671d7e69900c875342080986652e5
+
+
 # Reflektion
+
+Appens grund layout användes som startblock för projektet efter att skissen tagits fram, detta visade sig inte vara så svårt utan mer tidskrävande. Det som spökade i bakgrunden var däremot databasen. Planering kring hur den bör implementeras och vad som kommer behövas är något som förbisetts och borde göras nästa gång för att underlätta processen. Flera gånger vid implementeringen av databasen behövde det tänkas om och anpassas då nya problem kring den nuvarande implementationen kom upp.
+Hela arbetet har varit mycket lärorik, många delar av min lösning krävde tänkande utanför de material som erhållits i kursen och gav således en extra utmaning. Är överlag ganska nöjd med det som presterats i detta projekt då alla delar bortsett från placeringen av _"about-knappen"_ implementerades som tänkt.  
