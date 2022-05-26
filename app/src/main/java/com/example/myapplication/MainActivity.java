@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
             e.printStackTrace();
         }
 
-        // om databasen var tom startas arbetet med att hämta JSON strängen med den data som behövs.
+        // är databasen var tom startas arbetet med att hämta JSON strängen med den data som behövs.
         if (penguins.isEmpty()) {
 
             //Unmarshall
